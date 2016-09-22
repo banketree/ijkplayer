@@ -29,6 +29,7 @@ UNI_BUILD_ROOT=`pwd`
 UNI_TMP="$UNI_BUILD_ROOT/tmp"
 UNI_TMP_LLVM_VER_FILE="$UNI_TMP/llvm.ver.txt"
 FF_TARGET=$1
+FF_TARGET_EXTRA=$2
 set -e
 
 #----------
@@ -39,7 +40,7 @@ echo_archs() {
     echo "FF_ALL_ARCHS = $FF_ALL_ARCHS"
 }
 
-FF_LIBS="libavcodec libavformat libavutil libswscale libswresample"
+FF_LIBS="libavcodec libavfilter libavformat libavutil libswscale libswresample"
 do_lipo_ffmpeg () {
     LIB_FILE=$1
     LIPO_FLAGS=
@@ -117,11 +118,11 @@ do_lipo_all () {
 #----------
 if [ "$FF_TARGET" = "armv7" -o "$FF_TARGET" = "armv7s" -o "$FF_TARGET" = "arm64" ]; then
     echo_archs
-    sh tools/do-compile-ffmpeg.sh $FF_TARGET
+    sh tools/do-compile-ffmpeg.sh $FF_TARGET $FF_TARGET_EXTRA
     do_lipo_all
 elif [ "$FF_TARGET" = "i386" -o "$FF_TARGET" = "x86_64" ]; then
     echo_archs
-    sh tools/do-compile-ffmpeg.sh $FF_TARGET
+    sh tools/do-compile-ffmpeg.sh $FF_TARGET $FF_TARGET_EXTRA
     do_lipo_all
 elif [ "$FF_TARGET" = "lipo" ]; then
     echo_archs
@@ -130,7 +131,7 @@ elif [ "$FF_TARGET" = "all" ]; then
     echo_archs
     for ARCH in $FF_ALL_ARCHS
     do
-        sh tools/do-compile-ffmpeg.sh $ARCH
+        sh tools/do-compile-ffmpeg.sh $ARCH $FF_TARGET_EXTRA
     done
 
     do_lipo_all
@@ -144,6 +145,8 @@ elif [ "$FF_TARGET" = "clean" ]; then
     done
     rm -rf build/ffmpeg-*
     rm -rf build/openssl-*
+    rm -rf build/universal/include
+    rm -rf build/universal/lib
 else
     echo "Usage:"
     echo "  compile-ffmpeg.sh armv7|arm64|i386|x86_64"

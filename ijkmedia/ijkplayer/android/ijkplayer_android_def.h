@@ -128,6 +128,10 @@ enum media_info_type {
 
     //9xx
     MEDIA_INFO_TIMED_TEXT_ERROR = 900,
+
+    //100xx
+    MEDIA_INFO_VIDEO_ROTATION_CHANGED = 10001,
+    MEDIA_INFO_AUDIO_RENDERING_START = 10002,
 };
 
 typedef struct ijkmp_mediacodecinfo_context

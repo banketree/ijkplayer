@@ -147,6 +147,7 @@ struct SDL_Vout;
 #define IJKMP_OPT_CATEGORY_CODEC  FFP_OPT_CATEGORY_CODEC
 #define IJKMP_OPT_CATEGORY_SWS    FFP_OPT_CATEGORY_SWS
 #define IJKMP_OPT_CATEGORY_PLAYER FFP_OPT_CATEGORY_PLAYER
+#define IJKMP_OPT_CATEGORY_SWR    FFP_OPT_CATEGORY_SWR
 
 
 void            ijkmp_global_init();
@@ -170,6 +171,13 @@ void            ijkmp_set_option_int(IjkMediaPlayer *mp, int opt_category, const
 
 int             ijkmp_get_video_codec_info(IjkMediaPlayer *mp, char **codec_info);
 int             ijkmp_get_audio_codec_info(IjkMediaPlayer *mp, char **codec_info);
+void            ijkmp_set_playback_rate(IjkMediaPlayer *mp, float rate);
+int             ijkmp_set_stream_selected(IjkMediaPlayer *mp, int stream, int selected);
+
+float           ijkmp_get_property_float(IjkMediaPlayer *mp, int id, float default_value);
+void            ijkmp_set_property_float(IjkMediaPlayer *mp, int id, float value);
+int64_t         ijkmp_get_property_int64(IjkMediaPlayer *mp, int id, int64_t default_value);
+void            ijkmp_set_property_int64(IjkMediaPlayer *mp, int id, int64_t value);
 
 // must be freed with free();
 IjkMediaMeta   *ijkmp_get_meta_l(IjkMediaPlayer *mp);
@@ -196,6 +204,8 @@ bool            ijkmp_is_playing(IjkMediaPlayer *mp);
 long            ijkmp_get_current_position(IjkMediaPlayer *mp);
 long            ijkmp_get_duration(IjkMediaPlayer *mp);
 long            ijkmp_get_playable_duration(IjkMediaPlayer *mp);
+void            ijkmp_set_loop(IjkMediaPlayer *mp, int loop);
+int             ijkmp_get_loop(IjkMediaPlayer *mp);
 
 void           *ijkmp_get_weak_thiz(IjkMediaPlayer *mp);
 void           *ijkmp_set_weak_thiz(IjkMediaPlayer *mp, void *weak_thiz);
